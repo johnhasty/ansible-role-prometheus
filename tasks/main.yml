@@ -33,4 +33,4 @@
     name: prometheus.service
     state: started
     enabled: yes
-    enabled: yes
+    daemon_reload: yes
