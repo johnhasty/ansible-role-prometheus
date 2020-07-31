@@ -1,0 +1,25 @@
+---
+
+- name: Create Prometheus User
+  user:
+    create_home: no
+    name: prometheus
+    system: yes
+    state: present
+
+- name: Create Archive
+  file:
+    owner: prometheus
+    group: prometheus
+    state: directory
+    path: /opt/prometheus
+    mode: 0755
+
+
+- name: Fetch & Unpack prometheus
+  unarchive:
+    src: https://github.com/prometheus/prometheus/releases/download/v2.10.0/prometheus-2.10.0.linux-amd64.tar.gz
+    remote_src: yes
+    dest: /opt/prometheus
+    owner: prometheus
+    group: prometheus
