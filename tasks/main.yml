@@ -7,14 +7,13 @@
     system: yes
     state: present
 
-- name: Create Archive
+- name: Create Prometheus Directory
   file:
     owner: prometheus
     group: prometheus
     state: directory
     path: /opt/prometheus
     mode: 0755
-
 
 - name: Fetch & Unpack prometheus
   unarchive:
@@ -23,3 +22,15 @@
     dest: /opt/prometheus
     owner: prometheus
     group: prometheus
+
+- name: Deploy SystemD Unit File
+  template:
+    src: prometheus.service.j2
+    dest: /usr/lib/systemd/system/prometheus.service
+  
+- name: Start + Enable Prometheus Service
+  systemd:
+    name: prometheus.service
+    state: started
+    enabled: yes
+    enabled: yes
